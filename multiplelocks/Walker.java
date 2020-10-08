@@ -17,7 +17,7 @@ public class Walker {
 	private List<Integer> listTwo = new ArrayList<Integer>();
 	private Random random = new Random();
 
-	public void stageOne() {
+	public synchronized void stageOne() {
 		try {
 			Thread.sleep(1);
 		} catch (InterruptedException e) {
@@ -28,7 +28,7 @@ public class Walker {
 		listOne.add(random.nextInt(100));
 	}
 
-	public void stageTwo() {
+	public synchronized void stageTwo() {
 		try {
 			Thread.sleep(1);
 		} catch (InterruptedException e) {
@@ -74,9 +74,15 @@ public class Walker {
 		threadOne.start();
 		threadTwo.start();
 		
+		// Time taken 2841 milliseconds, so two threads running simultaneously || listOne=1993, listTwo=1994 
+		// some elements missing as in 2 threads, each list should have 2000 numbers || sometimes may cause ArrayIndexOutOfBoundexception
+		
+		//With synchronized keyword, Time taken:5631 | listOne=2000, listTwo=2000
+		//First thread is accessing the intrinsic lock of list and 2nd thread is waiting, so time taken is double
+		
 		try {
 			threadOne.join();
-			threadTwo.join(); // Time taken 2841 milliseconds, so two threads running simultaneously 
+			threadTwo.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
