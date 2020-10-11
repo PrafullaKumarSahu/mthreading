@@ -6,6 +6,7 @@ package waitandnotify;
 import java.util.Scanner;
 
 /**
+ * Low level thread synchronization technique
  * @author prafullakumarsahu
  *
  */
